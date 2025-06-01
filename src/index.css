@@ -1,0 +1,180 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #6d28d9;
+  --primary-light: #8b5cf6;
+  --secondary: #0ea5e9;
+  --accent: #f43f5e;
+  --dark: #0f172a;
+  --darker: #020617;
+  --light: #f8fafc;
+}
+
+body {
+  margin: 0;
+  font-family: 'Exo 2', sans-serif;
+  overflow-x: hidden;
+  background-color: var(--darker);
+  color: var(--light);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Orbitron', sans-serif;
+}
+
+.text-glow {
+  text-shadow: 0 0 10px rgba(139, 92, 246, 0.5), 
+               0 0 20px rgba(139, 92, 246, 0.3),
+               0 0 30px rgba(139, 92, 246, 0.1);
+}
+
+.btn-glow {
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.5),
+              0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+.bg-animated {
+  background: linear-gradient(45deg, #0f172a, #1e293b, #334155);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.floating {
+  animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+.hover-scale {
+  transition: all 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.btn-primary {
+  @apply bg-violet-700 hover:bg-violet-600 text-white px-6 py-3 rounded-lg font-medium transition-all duration-300 hover-scale btn-glow;
+}
+
+.btn-secondary {
+  @apply bg-transparent border-2 border-violet-500 text-violet-500 hover:bg-violet-500 hover:text-white px-6 py-3 rounded-lg font-medium transition-all duration-300 hover-scale;
+}
+
+.glass-card {
+  @apply backdrop-blur-md bg-opacity-10 bg-slate-700 border border-slate-600 rounded-xl shadow-lg;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% auto;
+  animation: gradient 8s linear infinite;
+  text-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+}
+
+@keyframes float-symbol {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.font-russo {
+  font-family: 'Russo One', sans-serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+}
+
+.font-russo::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    rgba(139, 92, 246, 0) 0%,
+    rgba(139, 92, 246, 0.8) 50%,
+    rgba(139, 92, 246, 0) 100%
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.font-press-start {
+  font-family: 'Press Start 2P', cursive;
+  letter-spacing: 2px;
+}
+
+/* Add a subtle pixelated effect to the title */
+.font-press-start {
+  text-shadow: 
+    2px 2px 0px rgba(139, 92, 246, 0.3),
+    -2px -2px 0px rgba(14, 165, 233, 0.3);
+}
+
+.font-bungee {
+  font-family: 'Bungee Shade', cursive;
+  transform: perspective(1000px) rotateX(8deg) rotateY(-2deg);
+  text-shadow: 
+    1px 1px 0px rgba(0, 255, 157, 0.4),
+    2px 2px 0px rgba(0, 184, 255, 0.3),
+    3px 3px 0px rgba(255, 0, 255, 0.2),
+    4px 4px 10px rgba(0, 0, 0, 0.2),
+    0 0 15px rgba(0, 255, 157, 0.2),
+    0 0 30px rgba(0, 184, 255, 0.1);
+  transition: all 0.3s ease;
+  letter-spacing: 2px;
+  -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.1);
+}
+
+.font-bungee:hover {
+  transform: perspective(1000px) rotateX(5deg) rotateY(0deg);
+  filter: brightness(1.2) saturate(1.2);
+  letter-spacing: 3px;
+  text-shadow: 
+    1px 1px 0px rgba(0, 255, 157, 0.5),
+    2px 2px 0px rgba(0, 184, 255, 0.4),
+    3px 3px 0px rgba(255, 0, 255, 0.3),
+    4px 4px 10px rgba(0, 0, 0, 0.2),
+    0 0 20px rgba(0, 255, 157, 0.3),
+    0 0 40px rgba(0, 184, 255, 0.2);
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
