@@ -1,5 +1,6 @@
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const HeroSection: React.FC = () => {
   const scrollToContent = () => {
@@ -34,12 +35,12 @@ const HeroSection: React.FC = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-16">
-            <button className="btn-primary text-lg">
+            <Link to="/signup" className="btn-primary text-lg text-center">
               Sign Up Free
-            </button>
-            <button className="btn-secondary text-lg">
-              Explore Features
-            </button>
+            </Link>
+            <Link to="/signin" className="btn-secondary text-lg text-center">
+              Sign In
+            </Link>
           </div>
           
           <div className="flex justify-center space-x-8 sm:space-x-16">

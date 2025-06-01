@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const CallToAction: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -34,13 +35,13 @@ const CallToAction: React.FC = () => {
           </div>
           
           <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-6">
-            <button className="btn-primary text-lg w-full md:w-auto flex items-center justify-center space-x-2">
+            <Link to="/signup" className="btn-primary text-lg w-full md:w-auto flex items-center justify-center space-x-2">
               <span>Create Account</span>
               <ArrowRight className="h-5 w-5" />
-            </button>
-            <button className="btn-secondary text-lg w-full md:w-auto">
+            </Link>
+            <Link to="/signin" className="btn-secondary text-lg w-full md:w-auto">
               Sign In
-            </button>
+            </Link>
           </div>
           
           <div className="mt-12 pt-8 border-t border-gray-700">

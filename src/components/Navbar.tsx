@@ -1,100 +1,132 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Zap } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Menu, X } from 'lucide-react';
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  onNavClick: (sectionId: string) => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onNavClick }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleNavClick = (sectionId: string) => {
+    onNavClick(sectionId);
+    setIsMenuOpen(false);
+  };
+
   return (
-    <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-dark-darker bg-opacity-90 backdrop-blur-md py-2 shadow-lg'
-          : 'bg-transparent py-4'
-      }`}
-    >
+    <nav className={`fixed w-full z-50 transition-all duration-300 ${
+      isScrolled ? 'bg-dark-darker/80 backdrop-blur-md' : 'bg-transparent'
+    }`}>
       <div className="container mx-auto px-4 md:px-6">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center space-x-2">
-            <Zap className="h-8 w-8 text-primary-light animate-pulse" />
-            <span className="text-2xl font-orbitron font-bold text-white">
-              FanVerse
-            </span>
-          </div>
-          
+        <div className="flex items-center justify-between h-16">
+          <Link to="/" className="text-2xl font-orbitron font-bold text-primary-light">
+            FanVerse
+          </Link>
+
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">
-              About
-            </a>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">
-              Features
-            </a>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">
-              Community
-            </a>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">
-              Marketplace
-            </a>
-          </div>
-          
-          <div className="hidden md:block">
-            <div className="flex space-x-4">
-              <button className="btn-secondary">Sign In</button>
-              <button className="btn-primary">Sign Up</button>
-            </div>
-          </div>
-          
-          <div className="md:hidden">
             <button
-              className="text-white p-2"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              onClick={() => handleNavClick('about')}
+              className="text-gray-300 hover:text-primary-light transition-colors"
             >
-              {isMenuOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
-            </button>
-          </div>
-        </div>
-      </div>
-      
-      {/* Mobile menu */}
-      {isMenuOpen && (
-        <div className="md:hidden glass-card mt-2 mx-4 p-4">
-          <div className="flex flex-col space-y-4">
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">
               About
-            </a>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">
+            </button>
+            <button
+              onClick={() => handleNavClick('features')}
+              className="text-gray-300 hover:text-primary-light transition-colors"
+            >
               Features
-            </a>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">
+            </button>
+            <button
+              onClick={() => handleNavClick('community')}
+              className="text-gray-300 hover:text-primary-light transition-colors"
+            >
               Community
-            </a>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">
+            </button>
+            <button
+              onClick={() => handleNavClick('marketplace')}
+              className="text-gray-300 hover:text-primary-light transition-colors"
+            >
               Marketplace
-            </a>
-            <div className="flex flex-col space-y-2 pt-2 border-t border-gray-700">
-              <button className="btn-secondary w-full">Sign In</button>
-              <button className="btn-primary w-full">Sign Up</button>
+            </button>
+            <Link
+              to="/signin"
+              className="px-4 py-2 text-primary-light hover:text-white transition-colors"
+            >
+              Sign In
+            </Link>
+            <Link
+              to="/signup"
+              className="px-4 py-2 bg-primary-light text-white rounded-lg hover:bg-primary transition-colors"
+            >
+              Sign Up
+            </Link>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden text-gray-300 hover:text-primary-light transition-colors"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+
+        {/* Mobile Navigation */}
+        {isMenuOpen && (
+          <div className="md:hidden py-4">
+            <div className="flex flex-col space-y-4">
+              <button
+                onClick={() => handleNavClick('about')}
+                className="text-gray-300 hover:text-primary-light transition-colors"
+              >
+                About
+              </button>
+              <button
+                onClick={() => handleNavClick('features')}
+                className="text-gray-300 hover:text-primary-light transition-colors"
+              >
+                Features
+              </button>
+              <button
+                onClick={() => handleNavClick('community')}
+                className="text-gray-300 hover:text-primary-light transition-colors"
+              >
+                Community
+              </button>
+              <button
+                onClick={() => handleNavClick('marketplace')}
+                className="text-gray-300 hover:text-primary-light transition-colors"
+              >
+                Marketplace
+              </button>
+              <Link
+                to="/signin"
+                className="text-primary-light hover:text-white transition-colors"
+              >
+                Sign In
+              </Link>
+              <Link
+                to="/signup"
+                className="text-primary-light hover:text-white transition-colors"
+              >
+                Sign Up
+              </Link>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </nav>
   );
 };
