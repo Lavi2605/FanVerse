@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
+import { loginUser } from '../services/auth';
 
 const SignIn: React.FC = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     rememberMe: false
   });
+  const [error, setError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -18,10 +21,29 @@ const SignIn: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log(formData);
+    setError('');
+    
+    try {
+      const { token, user } = await loginUser(formData.email, formData.password);
+      
+      // Store token and user ID
+      localStorage.setItem('token', token);
+      localStorage.setItem('userId', user.id.toString());
+      
+      // Check if user has preferences
+      const hasPreferences = user.has_preferences;
+      
+      // Redirect based on whether user has preferences
+      if (hasPreferences) {
+        navigate('/dashboard');
+      } else {
+        navigate('/preferences');
+      }
+    } catch (error) {
+      setError('Invalid email or password');
+    }
   };
 
   return (
@@ -70,6 +92,12 @@ const SignIn: React.FC = () => {
           Welcome Back
         </h2>
         
+        {error && (
+          <div className="mb-4 p-3 bg-red-500 bg-opacity-20 border border-red-500 rounded-lg text-red-500 text-center">
+            {error}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -80,7 +108,7 @@ const SignIn: React.FC = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg bg-dark-lighter border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-light"
+              className="w-full px-4 py-2 rounded-lg bg-dark-lighter border border-gray-700 text-black focus:outline-none focus:ring-2 focus:ring-primary-light"
               required
             />
           </div>
@@ -94,7 +122,7 @@ const SignIn: React.FC = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg bg-dark-lighter border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-light"
+              className="w-full px-4 py-2 rounded-lg bg-dark-lighter border border-gray-700 text-black focus:outline-none focus:ring-2 focus:ring-primary-light"
               required
             />
           </div>
