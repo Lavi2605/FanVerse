@@ -81,4 +81,10 @@ export const getPreferences = async (userId: number) => {
   } catch (error) {
     throw error;
   }
+};
+
+export const logoutUser = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('userId');
+  window.location.href = '/signin';
 }; 
