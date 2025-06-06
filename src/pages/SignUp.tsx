@@ -151,7 +151,7 @@ const SignUp: React.FC = () => {
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleChange}
-                className="w-full px-4 py-2 rounded-lg bg-dark-lighter border border-gray-700 text-black focus:outline-none focus:ring-2 focus:ring-primary-light"
+                className="w-full px-4 py-2 rounded-lg bg-slate-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-light"
                 required
               />
             </div>
@@ -165,7 +165,7 @@ const SignUp: React.FC = () => {
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleChange}
-                className="w-full px-4 py-2 rounded-lg bg-dark-lighter border border-gray-700 text-black focus:outline-none focus:ring-2 focus:ring-primary-light"
+                className="w-full px-4 py-2 rounded-lg bg-slate-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-light"
                 required
               />
             </div>
@@ -180,7 +180,7 @@ const SignUp: React.FC = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg bg-dark-lighter border border-gray-700 text-black focus:outline-none focus:ring-2 focus:ring-primary-light"
+              className="w-full px-4 py-2 rounded-lg bg-slate-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-light"
               required
             />
           </div>
@@ -195,7 +195,7 @@ const SignUp: React.FC = () => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full px-4 py-2 rounded-lg bg-dark-lighter border border-gray-700 text-black focus:outline-none focus:ring-2 focus:ring-primary-light"
+                className="w-full px-4 py-2 rounded-lg bg-slate-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-light"
                 required
               />
             </div>
@@ -209,7 +209,7 @@ const SignUp: React.FC = () => {
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className="w-full px-4 py-2 rounded-lg bg-dark-lighter border border-gray-700 text-black focus:outline-none focus:ring-2 focus:ring-primary-light"
+                className="w-full px-4 py-2 rounded-lg bg-slate-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-light"
                 required
               />
             </div>
@@ -224,7 +224,7 @@ const SignUp: React.FC = () => {
                 name="gender"
                 value={formData.gender}
                 onChange={handleChange}
-                className="w-full px-4 py-2 rounded-lg bg-dark-lighter border border-gray-700 text-black focus:outline-none focus:ring-2 focus:ring-primary-light"
+                className="w-full px-4 py-2 rounded-lg bg-slate-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-light"
                 required
               >
                 <option value="">Select Gender</option>
@@ -243,7 +243,7 @@ const SignUp: React.FC = () => {
                 name="age"
                 value={formData.age}
                 onChange={handleChange}
-                className="w-full px-4 py-2 rounded-lg bg-dark-lighter border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-light"
+                className="w-full px-4 py-2 rounded-lg bg-slate-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-light"
                 required
               />
             </div>
@@ -258,7 +258,7 @@ const SignUp: React.FC = () => {
               name="country"
               value={formData.country}
               onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg bg-dark-lighter border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-light"
+              className="w-full px-4 py-2 rounded-lg bg-slate-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-light"
               required
             />
           </div>
@@ -272,7 +272,7 @@ const SignUp: React.FC = () => {
               name="address"
               value={formData.address}
               onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg bg-dark-lighter border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-light"
+              className="w-full px-4 py-2 rounded-lg bg-slate-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-light"
               required
             />
           </div>
@@ -286,7 +286,7 @@ const SignUp: React.FC = () => {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg bg-dark-lighter border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-light"
+              className="w-full px-4 py-2 rounded-lg bg-slate-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-light"
               required
             />
           </div>
@@ -400,7 +400,7 @@ const SignUp: React.FC = () => {
                   value={formData.customPreferences}
                   onChange={handleChange}
                   placeholder="Enter your other preferences"
-                  className="w-full px-4 py-2 rounded-lg bg-dark-lighter border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-light"
+                  className="w-full px-4 py-2 rounded-lg bg-slate-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-light"
                 />
               </div>
             )}

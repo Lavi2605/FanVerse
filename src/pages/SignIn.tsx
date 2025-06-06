@@ -8,42 +8,37 @@ const SignIn: React.FC = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
-    password: '',
-    rememberMe: false
+    password: ''
   });
   const [error, setError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: value
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    
+
     try {
-      const { token, user } = await loginUser(formData.email, formData.password);
-      
-      // Store token and user ID
-      localStorage.setItem('token', token);
-      localStorage.setItem('userId', user.id.toString());
-      localStorage.setItem('userEmail', user.email);
-      
-      // Check if user has preferences
-      const hasPreferences = user.has_preferences;
-      
-      // Redirect based on whether user has preferences
-      if (hasPreferences) {
-        navigate('/dashboard');
-      } else {
-        navigate('/preferences');
+      const res = await loginUser(formData.email, formData.password);
+      if (res.success) {
+        localStorage.setItem('token', res.token);
+        localStorage.setItem('userId', res.user.id);
+        
+        // Redirect based on whether user has preferences
+        if (!res.user.hasPreferences) {
+          navigate('/preferences');
+        } else {
+          navigate('/dashboard');
+        }
       }
-    } catch (error) {
-      setError('Invalid email or password');
+    } catch (err: any) {
+      setError(err.message || 'Login failed');
     }
   };
 
@@ -92,13 +87,13 @@ const SignIn: React.FC = () => {
         <h2 className="text-3xl font-orbitron font-bold text-center mb-8 text-white">
           Welcome Back
         </h2>
-        
+
         {error && (
-          <div className="mb-4 p-3 bg-red-500 bg-opacity-20 border border-red-500 rounded-lg text-red-500 text-center">
+          <div className="mb-4 p-3 bg-red-500/10 border border-red-500 rounded-lg text-red-500 text-sm">
             {error}
           </div>
         )}
-
+        
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -109,7 +104,7 @@ const SignIn: React.FC = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg bg-dark-lighter border border-gray-700 text-black focus:outline-none focus:ring-2 focus:ring-primary-light"
+              className="w-full px-4 py-2 rounded-lg bg-slate-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-light"
               required
             />
           </div>
@@ -123,30 +118,9 @@ const SignIn: React.FC = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg bg-dark-lighter border border-gray-700 text-black focus:outline-none focus:ring-2 focus:ring-primary-light"
+              className="w-full px-4 py-2 rounded-lg bg-slate-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary-light"
               required
             />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                name="rememberMe"
-                checked={formData.rememberMe}
-                onChange={handleChange}
-                className="w-4 h-4 rounded border-gray-700 text-primary-light focus:ring-primary-light"
-              />
-              <label className="ml-2 text-sm text-gray-300">
-                Remember me
-              </label>
-            </div>
-            <Link
-              to="/forgot-password"
-              className="text-sm text-primary-light hover:text-primary transition-colors"
-            >
-              Forgot password?
-            </Link>
           </div>
 
           <button
