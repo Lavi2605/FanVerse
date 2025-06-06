@@ -31,6 +31,7 @@ const SignIn: React.FC = () => {
       // Store token and user ID
       localStorage.setItem('token', token);
       localStorage.setItem('userId', user.id.toString());
+      localStorage.setItem('userEmail', user.email);
       
       // Check if user has preferences
       const hasPreferences = user.has_preferences;
