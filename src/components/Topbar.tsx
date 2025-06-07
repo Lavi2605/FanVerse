@@ -1,8 +1,14 @@
 import React from 'react';
-import { FaMoon, FaPlus, FaSignOutAlt } from 'react-icons/fa';
+import { FaMoon, FaPlus, FaSignOutAlt, FaSun } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-const Topbar: React.FC = () => {
+// Add props for dark mode
+interface TopbarProps {
+  isDarkMode: boolean;
+  toggleDarkMode: () => void;
+}
+
+const Topbar: React.FC<TopbarProps> = ({ isDarkMode, toggleDarkMode }) => {
   const navigate = useNavigate();
   const userEmail = localStorage.getItem('userEmail') || 'User';
   const userId = localStorage.getItem('userId');
@@ -20,9 +26,13 @@ const Topbar: React.FC = () => {
         <input className="rounded-full px-6 py-2 w-full bg-[#231a3a] text-white placeholder-purple-300 focus:outline-none" placeholder="Search items, collections..." />
       </div>
       <div className="flex items-center gap-6">
-        <button className="flex items-center gap-2 bg-[#231a3a] text-white px-4 py-2 rounded-full font-bold hover:bg-purple-700 transition">
-          <FaMoon className="text-yellow-300" />
-          Dark Mode
+        {/* Dark/Light Mode Toggle Button */}
+        <button 
+          onClick={toggleDarkMode}
+          className="flex items-center gap-2 bg-[#231a3a] text-white px-4 py-2 rounded-full font-bold hover:bg-purple-700 transition"
+        >
+          {isDarkMode ? <FaSun className="text-yellow-300" /> : <FaMoon className="text-yellow-300" />}
+          {isDarkMode ? 'Light Mode' : 'Dark Mode'}
         </button>
         <button 
           onClick={handleLogout}

@@ -29,6 +29,7 @@ const SignIn: React.FC = () => {
       if (res.success) {
         localStorage.setItem('token', res.token);
         localStorage.setItem('userId', res.user.id);
+        localStorage.setItem('userEmail', res.user.email);
         
         // Redirect based on whether user has preferences
         if (!res.user.hasPreferences) {

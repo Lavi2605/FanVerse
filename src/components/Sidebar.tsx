@@ -1,21 +1,22 @@
 import React from 'react';
 import { FaThLarge, FaGavel, FaStore, FaWallet, FaLayerGroup, FaTags, FaHeart, FaEnvelope, FaHistory, FaUser, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const menuItems = [
-  { icon: <FaThLarge />, label: 'Dashboard', active: true },
-  { icon: <FaGavel />, label: 'Active Bids', badge: '19', badgeColor: 'bg-pink-500' },
-  { icon: <FaStore />, label: 'Marketplace', badge: '09', badgeColor: 'bg-blue-400' },
-  { icon: <FaWallet />, label: 'My Wallet' },
-  { icon: <FaLayerGroup />, label: 'My Collections' },
-  { icon: <FaTags />, label: 'Sell', badge: '4k', badgeColor: 'bg-green-400' },
-  { icon: <FaHeart />, label: 'Saved', badge: '32', badgeColor: 'bg-pink-400' },
-  { icon: <FaEnvelope />, label: 'Message', badge: '19', badgeColor: 'bg-pink-500' },
-  { icon: <FaHistory />, label: 'History' },
+  { icon: <FaThLarge />, label: 'Dashboard', active: true, path: '/dashboard' },
+  { icon: <FaGavel />, label: 'Active Bids', badge: '19', badgeColor: 'bg-pink-500', path: '/active-bids' },
+  { icon: <FaStore />, label: 'Marketplace', badge: '09', badgeColor: 'bg-blue-400', path: '/marketplace' },
+  { icon: <FaWallet />, label: 'My Wallet', path: '/wallet' },
+  { icon: <FaLayerGroup />, label: 'My Collections', path: '/collections' },
+  { icon: <FaTags />, label: 'Sell', badge: '4k', badgeColor: 'bg-green-400', path: '/sell' },
+  { icon: <FaHeart />, label: 'Saved', badge: '32', badgeColor: 'bg-pink-400', path: '/saved' },
+  { icon: <FaEnvelope />, label: 'Message', badge: '19', badgeColor: 'bg-pink-500', path: '/messages' },
+  { icon: <FaHistory />, label: 'History', path: '/history' },
 ];
 
 const settingsItems = [
-  { icon: <FaUser />, label: 'My Profile' },
-  { icon: <FaCog />, label: 'Setting' },
+  { icon: <FaUser />, label: 'My Profile', path: '/profile' },
+  { icon: <FaCog />, label: 'Setting', path: '/settings' },
 ];
 
 const Sidebar: React.FC = () => {
@@ -29,11 +30,16 @@ const Sidebar: React.FC = () => {
         <nav>
           <ul className="space-y-1">
             {menuItems.map((item, idx) => (
-              <li key={idx} className={`flex items-center justify-between px-4 py-2 rounded-lg cursor-pointer transition ${item.active ? 'bg-gradient-to-r from-purple-700 to-blue-700 text-white font-bold' : 'hover:bg-[#231a3a] text-purple-100'}`}>
-                <span className="flex items-center gap-3 text-lg">{item.icon} {item.label}</span>
-                {item.badge && (
-                  <span className={`text-xs px-2 py-0.5 rounded-full ${item.badgeColor} text-white font-bold`}>{item.badge}</span>
-                )}
+              <li key={idx}>
+                <Link 
+                  to={item.path} 
+                  className={`flex items-center justify-between px-4 py-2 rounded-lg cursor-pointer transition ${item.active ? 'bg-gradient-to-r from-purple-700 to-blue-700 text-white font-bold' : 'hover:bg-[#231a3a] text-purple-100'}`}
+                >
+                  <span className="flex items-center gap-3 text-lg">{item.icon} {item.label}</span>
+                  {item.badge && (
+                    <span className={`text-xs px-2 py-0.5 rounded-full ${item.badgeColor} text-white font-bold`}>{item.badge}</span>
+                  )}
+                </Link>
               </li>
             ))}
           </ul>
@@ -41,8 +47,13 @@ const Sidebar: React.FC = () => {
         <div className="mt-8 px-4 text-purple-400 text-xs uppercase tracking-wider">Setting</div>
         <ul className="mt-2 space-y-1">
           {settingsItems.map((item, idx) => (
-            <li key={idx} className="flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer hover:bg-[#231a3a] text-purple-100">
-              {item.icon} {item.label}
+            <li key={idx}>
+               <Link 
+                to={item.path} 
+                className="flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer hover:bg-[#231a3a] text-purple-100"
+               >
+                 {item.icon} {item.label}
+               </Link>
             </li>
           ))}
         </ul>
