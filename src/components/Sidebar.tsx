@@ -2,6 +2,10 @@ import React from 'react';
 import { FaThLarge, FaGavel, FaStore, FaWallet, FaLayerGroup, FaTags, FaHeart, FaEnvelope, FaHistory, FaUser, FaCog, FaSignOutAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
+interface SidebarProps {
+  isDarkMode: boolean;
+}
+
 const menuItems = [
   { icon: <FaThLarge />, label: 'Dashboard', active: true, path: '/dashboard' },
   { icon: <FaGavel />, label: 'Active Bids', badge: '19', badgeColor: 'bg-pink-500', path: '/active-bids' },
@@ -19,9 +23,9 @@ const settingsItems = [
   { icon: <FaCog />, label: 'Setting', path: '/settings' },
 ];
 
-const Sidebar: React.FC = () => {
+const Sidebar: React.FC<SidebarProps> = ({ isDarkMode }) => {
   return (
-    <aside className="bg-gradient-to-b from-[#2d185a] to-[#18122b] w-64 min-h-screen flex flex-col justify-between py-6 px-2">
+    <aside className={`${isDarkMode ? 'bg-gradient-to-b from-[#2d185a] to-[#18122b]' : 'bg-gradient-to-b from-purple-600 to-blue-700'} w-64 min-h-screen flex flex-col justify-between py-6 px-2`}>
       <div>
         <div className="flex items-center gap-3 px-4 mb-8">
           <div className="bg-gradient-to-tr from-pink-500 to-purple-500 rounded-full w-10 h-10 flex items-center justify-center text-white font-bold text-2xl">F</div>
@@ -33,7 +37,13 @@ const Sidebar: React.FC = () => {
               <li key={idx}>
                 <Link 
                   to={item.path} 
-                  className={`flex items-center justify-between px-4 py-2 rounded-lg cursor-pointer transition ${item.active ? 'bg-gradient-to-r from-purple-700 to-blue-700 text-white font-bold' : 'hover:bg-[#231a3a] text-purple-100'}`}
+                  className={`flex items-center justify-between px-4 py-2 rounded-lg cursor-pointer transition ${
+                    item.active 
+                      ? 'bg-gradient-to-r from-purple-700 to-blue-700 text-white font-bold' 
+                      : isDarkMode 
+                        ? 'hover:bg-[#231a3a] text-purple-100' 
+                        : 'hover:bg-purple-500 text-white'
+                  }`}
                 >
                   <span className="flex items-center gap-3 text-lg">{item.icon} {item.label}</span>
                   {item.badge && (
@@ -44,13 +54,17 @@ const Sidebar: React.FC = () => {
             ))}
           </ul>
         </nav>
-        <div className="mt-8 px-4 text-purple-400 text-xs uppercase tracking-wider">Setting</div>
+        <div className={`mt-8 px-4 ${isDarkMode ? 'text-purple-400' : 'text-purple-100'} text-xs uppercase tracking-wider`}>Setting</div>
         <ul className="mt-2 space-y-1">
           {settingsItems.map((item, idx) => (
             <li key={idx}>
                <Link 
                 to={item.path} 
-                className="flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer hover:bg-[#231a3a] text-purple-100"
+                className={`flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer ${
+                  isDarkMode 
+                    ? 'hover:bg-[#231a3a] text-purple-100' 
+                    : 'hover:bg-purple-500 text-white'
+                }`}
                >
                  {item.icon} {item.label}
                </Link>

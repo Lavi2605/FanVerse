@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { getPreferences } from '../services/auth';
 import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';
@@ -21,7 +20,6 @@ interface DashboardProps {
 
 const Dashboard: React.FC<DashboardProps> = ({ isDarkMode, toggleDarkMode }) => {
   const navigate = useNavigate();
-  const [preferences, setPreferences] = useState<UserPreferences | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -33,8 +31,7 @@ const Dashboard: React.FC<DashboardProps> = ({ isDarkMode, toggleDarkMode }) => 
           return;
         }
 
-        const userPreferences = await getPreferences(parseInt(userId));
-        setPreferences(userPreferences);
+        await getPreferences(parseInt(userId));
         setLoading(false);
       } catch (error) {
         console.error('Error fetching preferences:', error);
@@ -47,19 +44,19 @@ const Dashboard: React.FC<DashboardProps> = ({ isDarkMode, toggleDarkMode }) => 
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-dark-darker flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
+      <div className={`min-h-screen ${isDarkMode ? 'bg-dark-darker' : 'bg-gray-50'} flex items-center justify-center`}>
+        <div className={`${isDarkMode ? 'text-white' : 'text-gray-800'} text-xl`}>Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="flex h-screen bg-dark-darker">
-      <Sidebar />
+    <div className={`flex h-screen ${isDarkMode ? 'bg-dark-darker' : 'bg-gray-50'}`}>
+      <Sidebar isDarkMode={isDarkMode} />
       <div className="flex-1 flex flex-col">
         {/* Pass dark mode props to Topbar */}
         <Topbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
-        <MainContent />
+        <MainContent isDarkMode={isDarkMode} />
       </div>
     </div>
   );

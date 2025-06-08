@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaMoon, FaPlus, FaSignOutAlt, FaSun } from 'react-icons/fa';
+import { FaMoon, FaSignOutAlt, FaSun } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 // Add props for dark mode

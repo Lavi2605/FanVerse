@@ -2,7 +2,7 @@ import { Pool } from 'pg';
 
 const pool = new Pool({
   user: 'postgres',
-  password: process.env.DB_PASSWORD || 'xyz', // Replace with your actual PostgreSQL password
+  password: process.env.DB_PASSWORD || '9188', // Actual PostgreSQL password
   host: 'localhost',
   port: 5432,
   database: 'fanverse',
