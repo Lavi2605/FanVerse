@@ -27,6 +27,7 @@ const MainContent: React.FC<MainContentProps> = ({ isDarkMode }) => {
   const userEmail = localStorage.getItem('userEmail') || 'User';
   const userId = localStorage.getItem('userId');
   const userName = userEmail.split('@')[0];
+  const [featuredImage, setFeaturedImage] = useState<string>('');
   const [trendingImages, setTrendingImages] = useState<ImageData[]>([]);
   const [preferences, setPreferences] = useState<UserPreferences | null>(null);
 
@@ -56,6 +57,27 @@ const MainContent: React.FC<MainContentProps> = ({ isDarkMode }) => {
           ...preferences.cartoons
         ];
 
+        const randomPreference = allPreferences[Math.floor(Math.random() * allPreferences.length)];
+
+        const featuredResponse = await fetch(
+          `https://api.unsplash.com/photos/random?query=${randomPreference}&orientation=landscape`,
+          {
+            headers: {
+              'Authorization': `Client-ID ${UNSPLASH_ACCESS_KEY}`
+            }
+          }
+        );
+
+        if (!featuredResponse.ok) {
+          console.error('Unsplash error:', featuredResponse.statusText);
+          return;
+        }
+
+        const featuredData = await featuredResponse.json();
+        setFeaturedImage(featuredData.urls.regular);
+        localStorage.setItem('featuredImage', featuredData.urls.regular);
+        localStorage.setItem('lastImageFetchTime', Date.now().toString());
+
         const trendingQueries = allPreferences.slice(0, 4);
         const trendingPromises = trendingQueries.map(preference =>
           fetch(
@@ -67,7 +89,7 @@ const MainContent: React.FC<MainContentProps> = ({ isDarkMode }) => {
             }
           ).then(res => res.json())
         );
-
+        
         const trendingData = await Promise.all(trendingPromises);
         setTrendingImages(trendingData);
       } catch (error) {
@@ -88,7 +110,7 @@ const MainContent: React.FC<MainContentProps> = ({ isDarkMode }) => {
         <div
           className={`flex-1 relative rounded-2xl p-6 flex flex-col md:flex-row items-center shadow-lg overflow-hidden`}
           style={{
-            backgroundImage: `url(/bg_dashboard.avif)`,
+            backgroundImage: `url(${featuredImage || '/bg_dashboard.avif'})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat'
