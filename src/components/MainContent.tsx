@@ -1,4 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { getPreferences } from '../services/auth';
+import { UNSPLASH_ACCESS_KEY } from '../config/constants/index';
+
+interface ImageData {
+  id: string;
+  urls: {
+    regular: string;
+  };
+  user: {
+    name: string;
+  };
+}
+
+interface UserPreferences {
+  games: string[];
+  movies_series: string[];
+  anime: string[];
+  cartoons: string[];
+}
 
 interface MainContentProps {
   isDarkMode: boolean;
@@ -7,41 +26,99 @@ interface MainContentProps {
 const MainContent: React.FC<MainContentProps> = ({ isDarkMode }) => {
   const userEmail = localStorage.getItem('userEmail') || 'User';
   const userId = localStorage.getItem('userId');
-  const userName = userEmail.split('@')[0]; // Simple way to get a username from email
+  const userName = userEmail.split('@')[0];
+  const [trendingImages, setTrendingImages] = useState<ImageData[]>([]);
+  const [preferences, setPreferences] = useState<UserPreferences | null>(null);
+
+  useEffect(() => {
+    const fetchUserPreferences = async () => {
+      try {
+        if (!userId) return;
+        const userPreferences = await getPreferences(parseInt(userId));
+        setPreferences(userPreferences);
+      } catch (error) {
+        console.error('Error fetching preferences:', error);
+      }
+    };
+
+    fetchUserPreferences();
+  }, [userId]);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      if (!preferences) return;
+
+      try {
+        const allPreferences = [
+          ...preferences.games,
+          ...preferences.movies_series,
+          ...preferences.anime,
+          ...preferences.cartoons
+        ];
+
+        const trendingQueries = allPreferences.slice(0, 4);
+        const trendingPromises = trendingQueries.map(preference =>
+          fetch(
+            `https://api.unsplash.com/photos/random?query=${preference}`,
+            {
+              headers: {
+                'Authorization': `Client-ID ${UNSPLASH_ACCESS_KEY}`
+              }
+            }
+          ).then(res => res.json())
+        );
+
+        const trendingData = await Promise.all(trendingPromises);
+        setTrendingImages(trendingData);
+      } catch (error) {
+        console.error('Error fetching images:', error);
+      }
+    };
+
+    if (preferences) {
+      fetchImages();
+      const interval = setInterval(fetchImages, 2 * 60 * 1000);
+      return () => clearInterval(interval);
+    }
+  }, [preferences]);
 
   return (
     <main className={`flex-1 ${isDarkMode ? 'bg-gradient-to-br from-[#1a1333] to-[#231a3a]' : 'bg-gradient-to-br from-gray-50 to-gray-100'} p-8 min-h-screen overflow-y-auto`}>
-      {/* Featured NFT Card */}
       <div className="flex flex-col lg:flex-row gap-8 mb-8">
-        <div className={`flex-1 ${isDarkMode ? 'bg-gradient-to-tr from-purple-700 to-blue-800' : 'bg-gradient-to-tr from-purple-500 to-blue-600'} rounded-2xl p-6 flex flex-col md:flex-row items-center shadow-lg`}>
-          <div className="flex-1">
+        <div
+          className={`flex-1 relative rounded-2xl p-6 flex flex-col md:flex-row items-center shadow-lg overflow-hidden`}
+          style={{
+            backgroundImage: `url(/bg_dashboard.avif)`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}
+        >
+          <div className="absolute inset-0 bg-black bg-opacity-60 rounded-2xl z-0"></div>
+          <div className="flex-1 relative z-10">
             <div className="flex items-center gap-3 mb-2">
               <img src={`https://www.gravatar.com/avatar/${userId}?d=identicon`} className="rounded-full border-2 border-white" alt="user" />
               <div>
                 <div className="font-bold text-white">{userEmail}</div>
-                <div className={`text-xs ${isDarkMode ? 'text-purple-200' : 'text-purple-100'}`}>@{userName}</div>
+                <div className={`text-xs text-purple-200`}>@{userName}</div>
               </div>
             </div>
-            <div className="text-white text-lg font-semibold mb-2">Lock and Lob x Fiesta Spurs</div>
             <div className="flex gap-8 mb-4">
               <div>
-                <div className={`text-xs ${isDarkMode ? 'text-purple-200' : 'text-purple-100'}`}>Current Bid</div>
+                <div className="text-xs text-purple-200">Current Bid</div>
                 <div className="font-bold text-xl text-white">75,320 ETH</div>
-                <div className={`text-xs ${isDarkMode ? 'text-purple-300' : 'text-purple-200'}`}>773.69 USD</div>
+                <div className="text-xs text-purple-300">773.69 USD</div>
               </div>
               <div>
-                <div className={`text-xs ${isDarkMode ? 'text-purple-200' : 'text-purple-100'}`}>Remaining Time</div>
+                <div className="text-xs text-purple-200">Remaining Time</div>
                 <div className="font-bold text-xl text-white">47 : 23 : 59</div>
-                <div className={`text-xs ${isDarkMode ? 'text-purple-300' : 'text-purple-200'}`}>Hrs : Mins : Sec</div>
+                <div className="text-xs text-purple-300">Hrs : Mins : Sec</div>
               </div>
             </div>
             <div className="flex gap-4">
               <button className="bg-pink-500 text-white px-6 py-2 rounded-full font-bold hover:bg-pink-600 transition">Place a Bid</button>
               <button className="text-white underline">View Artwork</button>
             </div>
-          </div>
-          <div className="flex-1 flex justify-center">
-            <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80" alt="NFT" className="rounded-xl w-64 h-40 object-cover" />
           </div>
         </div>
         {/* Statistics Card */}
@@ -94,14 +171,27 @@ const MainContent: React.FC<MainContentProps> = ({ isDarkMode }) => {
       </div>
       {/* Trending NFTs Section */}
       <div>
-        <div className="font-bold text-white text-xl mb-4">Trending Action</div>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {[1,2,3,4].map(i => (
-            <div key={i} className={`${isDarkMode ? 'bg-gradient-to-tr from-purple-700 to-blue-800' : 'bg-gradient-to-tr from-purple-500 to-blue-600'} rounded-2xl p-4 shadow-lg`}>
-              <img src={`https://source.unsplash.com/random/200x200?sig=${i}`} className="rounded-xl mb-2" alt="NFT" />
+        <div className="font-bold text-white text-xl mb-4">Trending Based on Your Interests</div>
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {trendingImages.map((image) => (
+            <div
+              key={image.id}
+              className={`${isDarkMode ? 'bg-gradient-to-tr from-purple-700 to-blue-800' : 'bg-gradient-to-tr from-purple-500 to-blue-600'} rounded-2xl p-4 shadow-lg`}
+            >
+              <img
+                src={image.urls.regular}
+                className="rounded-xl mb-2 w-full h-48 object-cover"
+                alt={`Artwork by ${image.user.name}`}
+              />
               <div className="flex items-center gap-2">
-                <img src="https://i.pravatar.cc/24" className="rounded-full border-2 border-white" alt="owner" />
-                <span className="text-white text-xs">Owned by <span className="font-bold">Bilout</span></span>
+                <img
+                  src={`https://i.pravatar.cc/24?u=${image.user.name}`}
+                  className="rounded-full border-2 border-white"
+                  alt="owner"
+                />
+                <span className="text-white text-xs">
+                  Created by <span className="font-bold">{image.user.name}</span>
+                </span>
               </div>
             </div>
           ))}
@@ -111,4 +201,4 @@ const MainContent: React.FC<MainContentProps> = ({ isDarkMode }) => {
   );
 };
 
-export default MainContent; 
+export default MainContent;

@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 🧼 Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(139, 92, 246, 0.5);
+  border-radius: 4px;
+}
+
 :root {
   --primary: #6d28d9;
   --primary-light: #8b5cf6;
@@ -42,15 +54,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes gradientBG {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .floating {
@@ -84,15 +90,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .animate-gradient {
@@ -137,10 +137,6 @@ h1, h2, h3, h4, h5, h6 {
 .font-press-start {
   font-family: 'Press Start 2P', cursive;
   letter-spacing: 2px;
-}
-
-/* Add a subtle pixelated effect to the title */
-.font-press-start {
   text-shadow: 
     2px 2px 0px rgba(139, 92, 246, 0.3),
     -2px -2px 0px rgba(14, 165, 233, 0.3);
@@ -172,9 +168,4 @@ h1, h2, h3, h4, h5, h6 {
     4px 4px 10px rgba(0, 0, 0, 0.2),
     0 0 20px rgba(0, 255, 157, 0.3),
     0 0 40px rgba(0, 184, 255, 0.2);
-}
-
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
 }

@@ -59,7 +59,7 @@ const App: React.FC = () => {
           path="/dashboard"
           element={
             <ProtectedRoute isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode}>
-              <Dashboard />
+              <Dashboard isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
             </ProtectedRoute>
           }
         />
@@ -67,7 +67,7 @@ const App: React.FC = () => {
           path="/messages"
           element={
             <ProtectedRoute isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode}>
-              <Messages />
+              <Messages isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
             </ProtectedRoute>
           }
         />
