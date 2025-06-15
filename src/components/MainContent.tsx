@@ -27,9 +27,10 @@ const MainContent: React.FC<MainContentProps> = ({ isDarkMode }) => {
   const userEmail = localStorage.getItem('userEmail') || 'User';
   const userId = localStorage.getItem('userId');
   const userName = userEmail.split('@')[0];
-  const [featuredImage, setFeaturedImage] = useState<string>('');
   const [trendingImages, setTrendingImages] = useState<ImageData[]>([]);
   const [preferences, setPreferences] = useState<UserPreferences | null>(null);
+  const [featuredImage, setFeaturedImage] = useState<string>('');
+  const [isFeaturedLoaded, setIsFeaturedLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchUserPreferences = async () => {
@@ -57,41 +58,23 @@ const MainContent: React.FC<MainContentProps> = ({ isDarkMode }) => {
           ...preferences.cartoons
         ];
 
-        const randomPreference = allPreferences[Math.floor(Math.random() * allPreferences.length)];
-
-        const featuredResponse = await fetch(
-          `https://api.unsplash.com/photos/random?query=${randomPreference}&orientation=landscape`,
-          {
-            headers: {
-              'Authorization': `Client-ID ${UNSPLASH_ACCESS_KEY}`
-            }
-          }
-        );
-
-        if (!featuredResponse.ok) {
-          console.error('Unsplash error:', featuredResponse.statusText);
-          return;
-        }
-
-        const featuredData = await featuredResponse.json();
-        setFeaturedImage(featuredData.urls.regular);
-        localStorage.setItem('featuredImage', featuredData.urls.regular);
-        localStorage.setItem('lastImageFetchTime', Date.now().toString());
-
         const trendingQueries = allPreferences.slice(0, 4);
-        const trendingPromises = trendingQueries.map(preference =>
-          fetch(
-            `https://api.unsplash.com/photos/random?query=${preference}`,
-            {
-              headers: {
-                'Authorization': `Client-ID ${UNSPLASH_ACCESS_KEY}`
-              }
+
+        const imagePromises = trendingQueries.map((preference) =>
+          fetch(`https://api.unsplash.com/photos/random?query=${preference}`, {
+            headers: {
+              Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}`
             }
-          ).then(res => res.json())
+          }).then((res) => res.json())
         );
-        
-        const trendingData = await Promise.all(trendingPromises);
-        setTrendingImages(trendingData);
+
+        const imageResults = await Promise.all(imagePromises);
+        setTrendingImages(imageResults);
+
+        if (imageResults.length > 0 && imageResults[0]?.urls?.regular) {
+          setIsFeaturedLoaded(false); // reset transition
+          setFeaturedImage(imageResults[0].urls.regular);
+        }
       } catch (error) {
         console.error('Error fetching images:', error);
       }
@@ -107,22 +90,41 @@ const MainContent: React.FC<MainContentProps> = ({ isDarkMode }) => {
   return (
     <main className={`flex-1 ${isDarkMode ? 'bg-gradient-to-br from-[#1a1333] to-[#231a3a]' : 'bg-gradient-to-br from-gray-50 to-gray-100'} p-8 min-h-screen overflow-y-auto`}>
       <div className="flex flex-col lg:flex-row gap-8 mb-8">
-        <div
-          className={`flex-1 relative rounded-2xl p-6 flex flex-col md:flex-row items-center shadow-lg overflow-hidden`}
-          style={{
-            backgroundImage: `url(${featuredImage || '/bg_dashboard.avif'})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
-          }}
-        >
+        {/* Featured Card with smooth transition */}
+        <div className="flex-1 relative rounded-2xl p-6 flex flex-col md:flex-row items-center shadow-lg overflow-hidden">
+          {/* Base fallback background */}
+          <div
+            className="absolute inset-0 z-0 rounded-2xl"
+            style={{
+              backgroundImage: `url('/bg_dashboard.avif')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+            }}
+          />
+
+          {/* Fetched featured image with fade transition */}
+          {featuredImage && (
+            <img
+              src={featuredImage}
+              alt="Featured Background"
+              onLoad={() => setIsFeaturedLoaded(true)}
+              className={`absolute inset-0 w-full h-full object-cover rounded-2xl transition-opacity duration-1000 z-0 ${
+                isFeaturedLoaded ? 'opacity-100' : 'opacity-0'
+              }`}
+            />
+          )}
+
+          {/* Overlay */}
           <div className="absolute inset-0 bg-black bg-opacity-60 rounded-2xl z-0"></div>
+
+          {/* Card Content */}
           <div className="flex-1 relative z-10">
             <div className="flex items-center gap-3 mb-2">
               <img src={`https://www.gravatar.com/avatar/${userId}?d=identicon`} className="rounded-full border-2 border-white" alt="user" />
               <div>
                 <div className="font-bold text-white">{userEmail}</div>
-                <div className={`text-xs text-purple-200`}>@{userName}</div>
+                <div className="text-xs text-purple-200">@{userName}</div>
               </div>
             </div>
             <div className="flex gap-8 mb-4">
@@ -143,7 +145,8 @@ const MainContent: React.FC<MainContentProps> = ({ isDarkMode }) => {
             </div>
           </div>
         </div>
-        {/* Statistics Card */}
+
+        {/* Stats + Creator Cards */}
         <div className="w-full lg:w-80 flex flex-col gap-6">
           <div className={`${isDarkMode ? 'bg-gradient-to-tr from-purple-800 to-blue-900' : 'bg-gradient-to-tr from-purple-600 to-blue-700'} rounded-2xl p-6 shadow-lg flex flex-col items-center`}>
             <div className="font-bold text-white mb-2">Statistics</div>
@@ -154,7 +157,6 @@ const MainContent: React.FC<MainContentProps> = ({ isDarkMode }) => {
               <div>Total Pending: <span className="text-blue-400">●</span></div>
             </div>
           </div>
-          {/* ETH Rate Card */}
           <div className={`${isDarkMode ? 'bg-gradient-to-tr from-purple-800 to-blue-900' : 'bg-gradient-to-tr from-purple-600 to-blue-700'} rounded-2xl p-6 shadow-lg`}>
             <div className="font-bold text-white mb-2">ETH rate</div>
             <div className="text-white text-2xl font-bold">$7473.67 USD</div>
@@ -166,7 +168,6 @@ const MainContent: React.FC<MainContentProps> = ({ isDarkMode }) => {
               </div>
             </div>
           </div>
-          {/* Top Creators Card */}
           <div className={`${isDarkMode ? 'bg-gradient-to-tr from-purple-800 to-blue-900' : 'bg-gradient-to-tr from-purple-600 to-blue-700'} rounded-2xl p-6 shadow-lg`}>
             <div className="font-bold text-white mb-2">Top Creators <span className="text-purple-300 text-xs">Weekly</span></div>
             <div className="flex items-center gap-3 mt-2">
@@ -180,6 +181,7 @@ const MainContent: React.FC<MainContentProps> = ({ isDarkMode }) => {
           </div>
         </div>
       </div>
+
       {/* Create NFT Banner */}
       <div className={`${isDarkMode ? 'bg-gradient-to-tr from-[#231a3a] to-[#2d185a]' : 'bg-gradient-to-tr from-purple-500 to-blue-600'} rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between mb-8 shadow-lg`}>
         <div>
@@ -191,6 +193,7 @@ const MainContent: React.FC<MainContentProps> = ({ isDarkMode }) => {
           <button className="text-white underline">View Artwork</button>
         </div>
       </div>
+
       {/* Trending NFTs Section */}
       <div>
         <div className="font-bold text-white text-xl mb-4">Trending Based on Your Interests</div>

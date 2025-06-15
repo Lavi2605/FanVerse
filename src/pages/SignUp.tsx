@@ -30,7 +30,8 @@ const SignUp: React.FC = () => {
     },
     customPreferences: ''
   });
-  const [error, setError] = useState('');
+
+  const [, setError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -89,7 +90,7 @@ const SignUp: React.FC = () => {
       } else {
         setError(res.error || 'Registration failed');
       }
-    } catch (err: any) {
+    } catch (err: any) { /* eslint-disable-line */
       setError(err.message || 'Registration failed');
     }
   };

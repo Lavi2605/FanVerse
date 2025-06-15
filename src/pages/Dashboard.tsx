@@ -5,6 +5,7 @@ import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';
 import MainContent from '../components/MainContent';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface UserPreferences {
   games: string[];
   movies_series: string[];

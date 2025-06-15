@@ -38,7 +38,7 @@ const SignIn: React.FC = () => {
           navigate('/dashboard');
         }
       }
-    } catch (err: any) {
+    } catch (err: any) /*eslint-disable-line*/ {
       setError(err.message || 'Login failed');
     }
   };

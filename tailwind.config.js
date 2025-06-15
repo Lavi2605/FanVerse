@@ -4,8 +4,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
+        inter: ['Inter', 'sans-serif'],
         orbitron: ['Orbitron', 'sans-serif'],
         exo: ['Exo 2', 'sans-serif'],
+        monoton: ['Monoton', 'cursive'],
       },
       colors: {
         primary: {
@@ -36,6 +38,9 @@ export default {
       },
       backgroundImage: {
         'hero-pattern': "url('https://images.pexels.com/photos/2387793/pexels-photo-2387793.jpeg')",
+      },
+      dropShadow: {
+        glow: '0 0 8px rgba(236, 72, 153, 0.8)',
       },
     },
   },
