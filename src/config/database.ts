@@ -1,22 +1,41 @@
 import { Pool } from 'pg';
+import { readFileSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const pool = new Pool({
   user: 'postgres',
-  password: process.env.DB_PASSWORD || '9188', // Actual PostgreSQL password
+  password: process.env.DB_PASSWORD || 'psql', //Actual PostgreSQL password
   host: 'localhost',
   port: 5432,
   database: 'fanverse',
-  ssl: false // Disable SSL for local development
+  ssl: false,
 });
 
-// Test the connection
-pool.connect((err, client, release) => {
-  if (err) {
-    console.error('Error connecting to the database:', err);
-    return;
+
+export const testConnection = async () => {
+  const client = await pool.connect();
+  try {
+    const schemaPath = join(__dirname, 'schema.sql');
+    const schema = readFileSync(schemaPath, 'utf8');
+    await client.query(schema);
+
+    console.log('✅ Database schema initialized');
+  } catch (err) {
+    console.error('❌ DB Error:', err);
+    throw err;
+  } finally {
+    client.release();
   }
-  console.log('Successfully connected to the database');
-  release();
-});
+};
 
-export default pool; 
+// ✅ Export pool for general access
+export default pool;
+
+// ✅ Export query for shorthand usage in controllers
+export const query = (text: string, params?: unknown[]) => {
+  return pool.query(text, params);
+};

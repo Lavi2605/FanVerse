@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-useless-catch */
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import pool from '../config/database';
@@ -5,7 +7,7 @@ import pool from '../config/database';
 const JWT_SECRET = 'your-secret-key'; // In production, use environment variable
 const API_URL = 'http://localhost:3001/api';
 
-export const registerUser = async (userData: any) => {
+export const registerUser = async (userData: unknown) => {
   try {
     const response = await fetch(`${API_URL}/register`, {
       method: 'POST',
@@ -47,7 +49,7 @@ export const loginUser = async (email: string, password: string) => {
   }
 };
 
-export const savePreferences = async (userId: number, preferences: any) => {
+export const savePreferences = async (userId: number, preferences: unknown) => {
   try {
     const response = await fetch(`${API_URL}/preferences`, {
       method: 'POST',
