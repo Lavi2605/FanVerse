@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "isolatedModules": true,
     "target": "ES2020",
     "module": "ESNext",
     "moduleResolution": "node",
@@ -12,11 +13,13 @@
     "rootDir": ".",
     "baseUrl": ".",
     "jsx": "react-jsx",
+    "resolveJsonModule": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "paths": {
       "*": ["node_modules/*"]
     },
-    "declaration": false
+    "declaration": false,
+    "noEmit": true
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules", "dist"],
@@ -24,6 +27,6 @@
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
+    { "path": "./tsconfig.node.json", "prepend": false }
   ]
 }
