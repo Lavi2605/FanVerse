@@ -40,7 +40,7 @@ const AboutSection: React.FC<{ visible: boolean }> = ({ visible }) => {
       <div className="absolute inset-0 bg-gradient-to-tl from-indigo-900/40 via-transparent to-cyan-900/40" />
 
       <div className="relative z-10 max-w-6xl mx-auto">
-        <div className="space-y-6 text-center mb-16">
+        <div className="space-y-4 text-center mb-10 mt-[1rem]">
         <h2><AnimatedHeading text="About FanVerse" isActive={visible}
         className="float-after text-4xl md:text-6xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-t from-indigo-400/70 via-cyan-400/70 to-indigo-600 leading-tight max-w-4xl mx-auto"
         /></h2>
@@ -48,7 +48,7 @@ const AboutSection: React.FC<{ visible: boolean }> = ({ visible }) => {
             initial={{ opacity: 0, y: 30 }}
             animate={visible ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1, delay: 0.2 }}
-            className="text-lg md:text-xl text-white/85 max-w-4xl mx-auto leading-relaxed font-medium"
+            className="relative top-2 text-lg md:text-xl text-white/85 max-w-4xl mx-auto leading-relaxed font-medium"
           >
             We're building the ultimate platform where fans don’t just consume content — they
             create, collaborate, and build communities around what they love most.
@@ -108,7 +108,7 @@ const AboutSection: React.FC<{ visible: boolean }> = ({ visible }) => {
                     >
                       <Icon className={`w-8 h-8 ${feature.color} mb-3 group-hover:scale-125 transition-transform duration-300`} />
                       <h4 className="font-black text-white text-sm mb-2">{feature.title}</h4>
-                      <p className="text-white/70 text-xs leading-relaxed">{feature.description}</p>
+                      <p className="text-white/80 text-xs leading-relaxed">{feature.description}</p>
                     </motion.div>
                   );
                 })}
@@ -124,13 +124,13 @@ const AboutSection: React.FC<{ visible: boolean }> = ({ visible }) => {
         {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={visible ? { opacity: 1, y: 0 } : {}}
+          animate={visible ? { opacity: 1, y: -35 } : {}}
           transition={{ duration: 1, delay: 0.2 }}
           className="text-center"
         >
-          <div className="inline-flex items-center gap-4 px-8 py-4 bg-gradient-to-r from-cyan-600/20 to-blue-600/20 rounded-full border border-cyan-500/30 backdrop-blur-sm hover:scale-105 transition-all duration-300 cursor-pointer group">
+          <div className="inline-flex items-center gap-4 px-4 py-2 bg-gradient-to-r from-cyan-600/20 to-blue-600/20 rounded-full border border-cyan-500/30 backdrop-blur-sm hover:scale-105 transition-all duration-300 cursor-pointer group">
             <Globe className="w-6 h-6 text-cyan-400 group-hover:animate-pulse" />
-            <span className="text-white font-bold text-lg">Join Our Growing Community</span>
+            <span className="text-white font-bold text-sm">Join Our Growing Community</span>
             <div className="flex -space-x-2">
               {[1, 2, 3, 4].map((i) => (
                 <div key={i} className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full border-2 border-white/20" />

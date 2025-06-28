@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import {
   ShoppingBag, TrendingUp, DollarSign,
-  Shield, Star, Gift,
+  Shield, Star,
 } from 'lucide-react';
 import AnimatedHeading from './AnimatedHeading';
 
@@ -40,7 +40,7 @@ const MarketplaceSection: React.FC = () => {
       creator: 'ArtistName',
       price: '$12.99',
       rating: 4.9,
-      image: 'https://images.pexels.com/photos/1323550/pexels-photo-1323550.jpeg?w=400&h=300&fit=crop',
+      image: 'https://images.pexels.com/photos/8252605/pexels-photo-8252605.jpeg?w=400&h=300&fit=crop',
       category: 'Art',
     },
     {
@@ -48,7 +48,7 @@ const MarketplaceSection: React.FC = () => {
       creator: 'DesignPro',
       price: '$8.50',
       rating: 4.8,
-      image: 'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?w=400&h=300&fit=crop',
+      image: 'https://images.pexels.com/photos/1719233/pexels-photo-1719233.jpeg?w=300&h=200&fit=crop',
       category: 'Design',
     },
     {
@@ -56,7 +56,7 @@ const MarketplaceSection: React.FC = () => {
       creator: 'AnimatorX',
       price: '$24.99',
       rating: 5.0,
-      image: 'https://images.pexels.com/photos/1036642/pexels-photo-1036642.jpeg?w=400&h=300&fit=crop',
+      image: 'https://images.pexels.com/photos/264905/pexels-photo-264905.jpeg?w=300&h=200&fit=crop',
       category: 'Animation',
     },
   ];
@@ -83,14 +83,14 @@ const MarketplaceSection: React.FC = () => {
             className="float-after text-4xl md:text-6xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-t from-green-400 via-blue-400 to-green-600 leading-tight max-w-4xl mx-auto mb-2"
           /></h2>
 
-          <p className="text-base md:text-lg text-white/85 max-w-3xl mx-auto leading-relaxed font-medium">
+          <p className="text-lg md:text-xl text-white/85 max-w-4xl mx-auto leading-relaxed font-medium">
             Turn your creativity into income. Our marketplace empowers creators to sell their work 
             and build sustainable businesses around their passion.
           </p>
         </motion.div>
 
         {/* Marketplace Features */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
+        <div className="relative bottom-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-2">
           {marketplaceFeatures.map((feature, i) => {
             const Icon = feature.icon;
             return (
@@ -121,7 +121,7 @@ const MarketplaceSection: React.FC = () => {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
           className="mb-16">
-          <h3 className="text-2xl md:text-3xl font-black text-white text-center mb-12">
+          <h3 className="animate-pulse-slow text-2xl md:text-3xl font-black text-white text-center mb-4">
             Featured Products
           </h3>
 
@@ -167,70 +167,6 @@ const MarketplaceSection: React.FC = () => {
                 </div>
               </motion.div>
             ))}
-          </div>
-        </motion.div>
-
-        {/* Seller Benefits */}
-        <motion.div
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="bg-gradient-to-r from-green-600/10 to-blue-600/10 backdrop-blur-sm rounded-2xl p-8 border border-white/10"
-        >
-          <div className="text-center mb-8">
-            <AnimatedHeading text="Start Selling Today"isActive={true} />
-            <p className="text-white/80 text-base">
-              Join thousands of creators already earning from their passion
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            {[
-              {
-                icon: DollarSign,
-                title: 'Low Fees',
-                desc: 'Keep more of what you earn with our competitive fee structure',
-                color: 'text-green-400',
-              },
-              {
-                icon: TrendingUp,
-                title: 'Growth Tools',
-                desc: 'Built-in marketing and analytics tools to grow your business',
-                color: 'text-blue-400',
-              },
-              {
-                icon: Gift,
-                title: 'Creator Support',
-                desc: 'Dedicated support team to help you succeed',
-                color: 'text-purple-400',
-              },
-            ].map((benefit, i) => {
-              const Icon = benefit.icon;
-              return (
-                <motion.div
-                  key={benefit.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.2, duration: 0.5 }}
-                  viewport={{ once: true }}
-                  className="text-center space-y-3"
-                >
-                  <div className="w-12 h-12 bg-gradient-to-br from-white/10 to-white/5 rounded-full flex items-center justify-center mx-auto">
-                    <Icon className={`w-6 h-6 ${benefit.color}`} />
-                  </div>
-                  <h4 className="font-black text-white text-lg">{benefit.title}</h4>
-                  <p className="text-white/80 leading-relaxed text-sm">{benefit.desc}</p>
-                </motion.div>
-              );
-            })}
-          </div>
-
-          <div className="text-center">
-            <button className="group px-6 py-3 bg-gradient-to-r from-green-600 to-blue-600 text-white font-bold rounded-xl text-base hover:shadow-2xl hover:shadow-green-500/30 transform hover:scale-105 transition-all duration-300 flex items-center gap-3 mx-auto">
-              <ShoppingBag className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
-              Start Selling Now
-            </button>
           </div>
         </motion.div>
       </div>

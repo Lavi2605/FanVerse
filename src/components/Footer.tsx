@@ -52,7 +52,7 @@ const Footer: React.FC = () => {
             <div className="text-center max-w-2xl mx-auto">
               <div className="flex items-center justify-center gap-3 mb-4">
                 <Sparkles className="w-6 h-6 text-purple-400 animate-pulse" />
-                <h3 className="text-2xl font-black text-white">Stay in the Loop</h3>
+                <h3 className="animate-match-move text-2xl font-black text-white">Stay in the Loop</h3>
                 <Sparkles className="w-6 h-6 text-pink-400 animate-pulse" />
               </div>
               <p className="text-white/80 mb-6 text-base leading-relaxed">

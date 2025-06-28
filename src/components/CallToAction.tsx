@@ -28,7 +28,7 @@ const CallToAction: React.FC = () => {
   return (
     <motion.section
       id="cta"
-      className="snap-start min-h-screen flex flex-col relative overflow-hidden px-4"
+      className="snap-start min-h-screen flex flex-col relative overflow-hidden px-4 pt-4"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
@@ -69,7 +69,7 @@ const CallToAction: React.FC = () => {
           {/* Benefits */}
           <motion.div
             variants={staggerContainer}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-12"
+            className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-4xl mx-auto pt-4 pb-4"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -107,22 +107,23 @@ const CallToAction: React.FC = () => {
             <motion.button
               custom={0}
               variants={fadeUp}
-              className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl text-lg hover:shadow-2xl hover:shadow-purple-500/30 transform hover:scale-105 transition-all duration-300 flex items-center gap-4 overflow-hidden"
+              className="group relative px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl text-base hover:shadow-2xl hover:shadow-purple-500/30 transform hover:scale-105 transition-all duration-300 flex items-center gap-4 overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="relative z-10">Start Creating Today</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300 relative z-10" />
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300 relative z-10" />
             </motion.button>
 
             <motion.button
               custom={1}
               variants={fadeUp}
-              className="group px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/30 text-white font-bold rounded-xl text-lg hover:bg-white/20 transition-all duration-300 flex items-center gap-4 hover:scale-105"
+              className="group px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-white font-bold rounded-xl text-base hover:bg-white/20 transition-all duration-300 flex items-center gap-4 hover:scale-105"
             >
-              <Zap className="w-5 h-5 group-hover:scale-110 transition-transform duration-300 text-yellow-400" />
+              <Zap className="w-4 h-4 group-hover:scale-110 transition-transform duration-300 text-yellow-400" />
               <span>Watch Demo</span>
             </motion.button>
           </motion.div>
+
         </div>
       </div>
 
@@ -133,25 +134,25 @@ const CallToAction: React.FC = () => {
         className="relative z-10 flex-1 flex items-center justify-center"
       >
         <div className="max-w-5xl mx-auto w-full">
-          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 mb-8">
-            <div className="text-center mb-8">
-              <p className="text-white/70 text-base font-medium">Trusted by creators worldwide</p>
+          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 mb-6">
+            <div className="text-center mb-6">
+              <p className="text-white/70 text-sm font-medium">Trusted by creators worldwide</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
               {[
                 ['10M+', 'Active Creators'],
                 ['$50M+', 'Creator Earnings'],
                 ['1B+', 'Content Views'],
               ].map(([stat, label]) => (
-                <div key={label} className="space-y-3">
-                  <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">{stat}</div>
-                  <p className="text-white/80 font-semibold text-base">{label}</p>
+                <div key={label} className="space-y-2">
+                  <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">{stat}</div>
+                  <p className="text-white/80 font-semibold text-sm">{label}</p>
                 </div>
               ))}
             </div>
           </div>
           <div className="text-center">
-            <p className="text-base text-white/70 font-medium">
+            <p className="text-sm text-white/70 font-medium">
               Free to start • No credit card required • Join in seconds
             </p>
           </div>

@@ -74,13 +74,13 @@ const FeaturesSection: React.FC = () => {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
+        <div className="relative -top-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-20">
           {features.map((feature) => {
             const Icon = feature.icon;
             return (
               <motion.div
                 key={feature.title}
-                className="group relative bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-500 hover:transform hover:scale-105 hover:-translate-y-2"
+                className="group relative bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-500 hover:transform hover:scale-105 hover:-translate-y-2"
                 whileInView={{ opacity: 1, y: 0 }}
                 initial={{ opacity: 0, y: 30 }}
                 viewport={{ once: true }}
@@ -108,7 +108,7 @@ const FeaturesSection: React.FC = () => {
         </div>
 
         <div className="text-center">
-            <button className="group px-2 py-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl text-lg hover:shadow-2xl hover:shadow-purple-500/30 transform hover:scale-105 transition-all duration-300 flex items-center gap-3 mx-auto mb-4 mt-[-1.5rem]">
+            <button className="group px-2 py-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl text-lg hover:shadow-2xl hover:shadow-purple-500/30 transform hover:scale-105 transition-all duration-300 flex items-center gap-3 mx-auto mt-[-6rem]">
               <Sparkles className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
               Explore All Features
             </button>

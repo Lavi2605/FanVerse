@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import { Link } from 'react-router-dom';
 import { Menu, X, LogIn, Sparkles } from 'lucide-react';
 
 interface NavbarProps {
@@ -13,10 +12,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentSection, onSectionClick, onAuthC
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -50,9 +46,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentSection, onSectionClick, onAuthC
             </div>
             <div className="flex flex-col">
               <span className="font-black text-xl text-white tracking-tight">FanVerse</span>
-              <span className="text-xs text-purple-300 font-medium -mt-0.5">
-                Create • Connect • Celebrate
-              </span>
+              <span className="text-xs text-purple-300 font-medium -mt-0.5">Create • Connect • Celebrate</span>
             </div>
           </div>
 
@@ -73,7 +67,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentSection, onSectionClick, onAuthC
             ))}
           </div>
 
-          {/* Auth Buttons */}
+          {/* Desktop Auth Buttons */}
           <div className="hidden md:flex items-center space-x-3">
             <button
               onClick={() => onAuthClick('signin')}
@@ -91,13 +85,25 @@ const Navbar: React.FC<NavbarProps> = ({ currentSection, onSectionClick, onAuthC
             </button>
           </div>
 
-          {/* Mobile menu toggle */}
-          <div className="md:hidden">
+          {/* Mobile Menu Toggle + Sign Buttons */}
+          <div className="md:hidden flex items-center gap-2">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="text-white p-2 rounded-lg hover:bg-white/10 transition-all duration-300 hover:scale-110"
             >
               {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+            <button
+              onClick={() => onAuthClick('signin')}
+              className="text-white/80 text-xs px-2 py-1 rounded hover:text-white transition-all duration-300"
+            >
+              Sign In
+            </button>
+            <button
+              onClick={() => onAuthClick('signup')}
+              className="px-3 py-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs font-semibold rounded hover:scale-105 transition-all duration-300"
+            >
+              Sign Up
             </button>
           </div>
         </div>
